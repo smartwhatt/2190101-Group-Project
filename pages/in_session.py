@@ -2,6 +2,8 @@ import streamlit as st
 import asyncio
 import datetime
 
+from utils.helper import reset_state
+
 
 async def time_tracker(timer):
     while True:
@@ -22,10 +24,16 @@ async def time_tracker(timer):
         await asyncio.sleep(1)
 
 
-with st.columns([1, 2, 1])[1]:
+with st.columns([1, 5, 1])[1] as col1:
     st.title("Currently in Session")
     if st.session_state.start_time is None:
         st.session_state.start_time = datetime.datetime.now()
 
     timer = st.empty()
+
+    with st.columns([1, 2, 1])[1] as col2:
+        if st.button("End Session", type="secondary"):
+            reset_state()
+            st.switch_page("pages/index.py")
+
     asyncio.run(time_tracker(timer))

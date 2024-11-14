@@ -1,4 +1,5 @@
 from langchain_core.messages import HumanMessage, SystemMessage, AIMessage
+import streamlit as st
 
 
 def state_to_prompt(state):
@@ -24,3 +25,8 @@ def prompt_to_state(prompt):
         }
         for message in prompt
     ]
+
+
+def reset_state():
+    st.session_state.drunk_status = []
+    st.session_state.start_time = None
