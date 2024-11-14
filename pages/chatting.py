@@ -12,7 +12,7 @@ async def inactive_tracker():
             "time_until_alert"
         ] and len(st.session_state["messages"]) <= 3:
             st.session_state.start_time = None
-            st.switch_page("pages/index.py")
+            st.switch_page("pages/emergency_alert.py")
         await asyncio.sleep(1)
 
 

@@ -30,3 +30,5 @@ def prompt_to_state(prompt):
 def reset_state():
     st.session_state.drunk_status = []
     st.session_state.start_time = None
+    st.session_state.messages = []
+    st.session_state.evaluation = None
