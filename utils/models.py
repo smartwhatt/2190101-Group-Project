@@ -23,7 +23,7 @@ class Evaluation(BaseModel):
         le=10,
     )
     confidence: float = Field(
-        description="The confidence level that the person you are texting is drunk at the drunk level rate range from 0 to 1",
+        description="The confidence level that the person you are texting is drunk at the drunk level rate range from 0.0 to 1.0",
         ge=0,
         le=1,
     )

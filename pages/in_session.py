@@ -31,9 +31,14 @@ with st.columns([1, 5, 1])[1] as col1:
 
     timer = st.empty()
 
+    if len(st.session_state.drunk_status) > 0:
+        st.line_chart(st.session_state.drunk_status)
+
     with st.columns([1, 2, 1])[1] as col2:
         if st.button("End Session", type="secondary"):
             reset_state()
             st.switch_page("pages/index.py")
+
+        # show graph of drunk status
 
     asyncio.run(time_tracker(timer))

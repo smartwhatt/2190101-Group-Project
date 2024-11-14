@@ -54,7 +54,7 @@ if prompt:
     print(st.session_state.evaluation)
 
 if (
-    len(st.session_state.messages) > 10
+    len(st.session_state.messages) > 6
     and st.session_state.evaluation["confidence"] > 0.7
 ):
     st.warning(
@@ -64,8 +64,11 @@ if (
     if st.session_state.evaluation["drunk_level"] > st.session_state["stop_loss"]:
         st.switch_page("pages/emergency_alert.py")
     st.session_state.start_time = None
-    st.session_state.drunk_status.append(st.session_state.evaluation["drunk_level"])
+    st.session_state.drunk_status.append(
+        (st.session_state.evaluation["drunk_level"], datetime.now())
+    )
 
+    st.session_state.messages = []
     st.switch_page("pages/in_session.py")
 
 asyncio.run(inactive_tracker())
