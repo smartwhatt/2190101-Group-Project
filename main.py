@@ -1,7 +1,8 @@
-from langchain_core.messages import HumanMessage, SystemMessage, AIMessage
 import streamlit as st
+from langchain_core.messages import HumanMessage, AIMessage
 
-from lib.models import get_chat_model, get_evaluation
+from utils.helper import state_to_prompt, prompt_to_state
+from utils.models import get_chat_model, get_evaluation
 
 
 def main():
@@ -12,11 +13,9 @@ def main():
     prompt = st.chat_input("You")
 
     if "messages" not in st.session_state:
-        st.session_state.messages = [
-            {"role": "system", "content": message.content} for message in messages
-        ]
+        st.session_state.messages = prompt_to_state(messages)
 
-    for message in st.session_state.messages:
+    for message in st.session_state.messages[-1:]:
         st.chat_message(message["role"]).markdown(message["content"])
 
     if prompt:
@@ -24,19 +23,7 @@ def main():
         st.session_state.messages.append({"role": "user", "content": prompt})
 
         response = llm(
-            [
-                (
-                    SystemMessage(message["content"])
-                    if message["role"] == "system"
-                    else (
-                        HumanMessage(message["content"])
-                        if message["role"] == "user"
-                        else AIMessage(message["content"])
-                    )
-                )
-                for message in st.session_state.messages
-            ]
-            + [HumanMessage(prompt)]
+            state_to_prompt(st.session_state.messages) + [HumanMessage(prompt)]
         )
         st.chat_message("ai").markdown(response.content)
 
@@ -45,7 +32,7 @@ def main():
         result = get_evaluation(
             [
                 f'{message["role"]}: {message["content"]}'
-                for message in st.session_state.messages
+                for message in st.session_state.messages[1:]
             ]
         )
         st.session_state.evaluation = result.model_dump()
