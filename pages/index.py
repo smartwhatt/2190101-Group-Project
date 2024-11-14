@@ -26,3 +26,9 @@ with st.columns([1, 3, 1])[1]:
         st.session_state["time_until_alert"] = st.number_input(
             "Inactive Time Until Alert (in seconds)", min_value=1, value=45
         )
+        st.session_state["stop_loss"] = st.slider(
+            "Stop Loss (Level of drunk that would sound the alarm)",
+            min_value=1,
+            max_value=10,
+            value=5,
+        )

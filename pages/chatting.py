@@ -4,6 +4,7 @@ from langchain_core.messages import HumanMessage
 from utils.helper import state_to_prompt, prompt_to_state
 from utils.models import get_chat_model, get_evaluation
 import asyncio
+import time
 
 
 async def inactive_tracker():
@@ -59,6 +60,12 @@ if (
     st.warning(
         f"Based on the conversation, the model is {st.session_state.evaluation['drunk_level']:.2f} confident you are drunk."
     )
+    time.sleep(2)
+    if st.session_state.evaluation["drunk_level"] > st.session_state["stop_loss"]:
+        st.switch_page("pages/emergency_alert.py")
+    st.session_state.start_time = None
     st.session_state.drunk_status.append(st.session_state.evaluation["drunk_level"])
+
+    st.switch_page("pages/in_session.py")
 
 asyncio.run(inactive_tracker())
