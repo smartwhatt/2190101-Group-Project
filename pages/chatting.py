@@ -8,9 +8,9 @@ import asyncio
 
 async def inactive_tracker():
     while True:
-        if (datetime.now() - st.session_state.start_time).seconds > 60 and len(
-            st.session_state["messages"]
-        ) <= 3:
+        if (datetime.now() - st.session_state.start_time).seconds > st.session_state[
+            "time_until_alert"
+        ] and len(st.session_state["messages"]) <= 3:
             st.session_state.start_time = None
             st.switch_page("pages/index.py")
         await asyncio.sleep(1)
