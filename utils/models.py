@@ -66,4 +66,5 @@ def get_evaluation(messages: List[str]):
     llm = ChatOllama(model="llama3.2", temperature=0.9).with_structured_output(
         Evaluation
     )
+
     return llm.invoke("\n".join(messages))
